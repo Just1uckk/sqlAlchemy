@@ -1,39 +1,45 @@
-from sqlalchemy import create_engine, Integer, String, ForeignKey, BigInteger, select
-from sqlalchemy.orm import registry, declarative_base, as_declarative, sessionmaker, declared_attr, Mapped, \
-    mapped_column, Session
+from sqlalchemy import create_engine, MetaData, Table, Column, Integer, String, ForeignKey, insert
+from sqlalchemy.dialects import postgresql, sqlite, mysql, oracle
 
 engine = create_engine("sqlite+pysqlite:///:memory:", echo=True)
 
-# mapper_registry = registry()
-# Base = mapper_registry.generate_base()
+metadata = MetaData()
 
-# Base = declarative_base()
+user_table = Table(
+    'users',
+    metadata,
+    Column('id', Integer, primary_key=True, unique=True, autoincrement=True),
+    Column('name', String(30)),
+    Column('fullname', String)
+)
 
-@as_declarative()
-class AbstractModel:
-    id: Mapped[int] = mapped_column(autoincrement=True, primary_key=True)
-    @classmethod
-    @declared_attr
-    def table_name(cls) -> str:
-        return cls.__name__.lower()
+address_table = Table(
+    'addresses',
+    metadata,
+    Column('id', Integer, primary_key=True, unique=True, autoincrement=True),
+    Column('email_address', String(30)),
+    Column('user_id', ForeignKey('users.id'))
+)
 
-class UserModel(AbstractModel):
-    __tablename__ = "users"
-    user_id: Mapped[int] = mapped_column(BigInteger)
-    name: Mapped[str] = mapped_column()
-    fullname: Mapped[str] = mapped_column()
+metadata.create_all(engine)
 
-class AddressModel(AbstractModel):
-    __tablename__ = "addresses"
-    email = mapped_column(String, nullable=False)
-    user_id = mapped_column(ForeignKey("users.id"))
+stmt = insert(user_table).values(name='Test', fullname='Test Test')
+# print(stmt.compile(engine, sqlite.dialect()))
+# print(stmt.compile(engine, postgresql.dialect()))
+# print(stmt.compile(engine, mysql.dialect()))
+# print(stmt.compile(engine, oracle.dialect()))
 
-with Session(engine) as session:
-    with session.begin():
-        AbstractModel.metadata.create_all(engine)
-        user = UserModel(user_id=1, name='Adnry', fullname='Horpynych')
-        session.add(user)
-    with session.begin():
-        res = session.execute(select(UserModel).where(UserModel.user_id == 1))
-        user = res.scalar()
-        print(user)
+stmt_wo_values = insert(user_table)
+
+sqlite_stmt = stmt_wo_values.compile(engine, sqlite.dialect())
+postgresql_stmt = stmt_wo_values.compile(engine, postgresql.dialect())
+
+with engine.begin() as conn:
+    result = conn.execute(
+        stmt_wo_values,
+        [
+            {"name": "test1", "fullname": "test1 full"},
+            {"name": "test2", "fullname": "test2 full"},
+            {"name": "test3", "fullname": "test3 full"}
+         ]
+    )
