@@ -13,7 +13,7 @@ class User (Base):
     name: Mapped[str]
     age: Mapped[int]
     # uselist=False one-to-one relationship
-    address: Mapped["Address"] = relationship(back_populates="user",uselist=False)
+    addresses: Mapped[list["Address"]] = relationship(back_populates="user", uselist=True)
 
     def __repr__(self) -> str:
         return f'User: {self.id=}:{self.name=}:{self.age=}'
@@ -22,7 +22,7 @@ class Address (Base):
     __tablename__ = 'addresses'
     email: Mapped[str] = mapped_column(primary_key=True)
     # uselist=False one-to-one relationship
-    user: Mapped["User"] = relationship(back_populates="address", uselist=False)
+    user: Mapped["User"] = relationship(back_populates="addresses", uselist=False)
     user_fk: Mapped[int] = mapped_column(ForeignKey('users.id'))
 
     def __repr__(self) -> str:
@@ -30,16 +30,17 @@ class Address (Base):
 
 Base.metadata.create_all(engine)
 
-session = Session(engine, expire_on_commit=True, autoflush=False)
+session = Session(engine, expire_on_commit=True, autoflush=True)
 
 user = User(id=1, name="Test", age=30)
-address = Address(email="test@test.com")
-user.address = address
+address1 = Address(email="test1@test.com")
+address2 = Address(email="test2@test.com")
+user.addresses.append(address1)
+user.addresses.append(address2)
 session.add(user)
 session.commit()
 
-users = session.scalars(select(User)).all()
-address = session.scalars(select(Address)).all()
+user = session.scalar(select(User))
 
-print(users)
-print(address)
+print(user)
+print(user.addresses)
