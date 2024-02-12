@@ -47,5 +47,5 @@ session.add(user)
 session.commit()
 
 user = session.scalar(select(User))
-print(user)
+
 print(user.addresses)
