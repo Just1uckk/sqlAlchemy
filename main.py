@@ -1,4 +1,5 @@
-from sqlalchemy import create_engine, MetaData, Table, Column, Integer, String, ForeignKey, insert, select, or_, desc
+from sqlalchemy import create_engine, MetaData, Table, Column, Integer, String, ForeignKey, insert, select, or_, desc, \
+    update, bindparam, delete
 from sqlalchemy.dialects import postgresql, sqlite, mysql, oracle
 
 engine = create_engine("sqlite+pysqlite:///:memory:", echo=True)
@@ -40,30 +41,33 @@ with engine.begin() as conn:
             {"email_address": "test3@gmail.com", "user_id": 3}
         ]
     )
-# .label - set a key
+
+
 with engine.begin() as conn:
-    result = conn.execute(
-        select(
-            address_table.c.email_address.label('email'),
-            (user_table.c.first_name + ' ' + user_table.c.second_name).label('full_name')
-        ).where(
-            user_table.c.id > 0
-        )
-        # ).join_from(user_table, address_table, user_table.c.id == address_table.c.user_id)
-        .join(address_table, isouter=True)
-        .order_by(
-            # desc - back order
-            # desc(user_table.c.id)
-            # user_table.c.id.desc()
-            # or by name of field
-            "email"
-        )
-        # .group_by - grouping
-        .group_by(
-            "email"
-        )
+    # Update Construction
+    # stmt = update(user_table).where(user_table.c.first_name == bindparam("oldname")).values(first_name=bindparam("newname"))
+    # conn.execute(
+    #    stmt,
+    #     [
+    #         {"oldname": "test1", "newname": "New Test 1"}
+    #     ]
+    # )
+
+    # Delete construction
+    # From single table
+    conn.execute(
+        delete(user_table).where(user_table.c.id == 1)
     )
 
-    print(result.all())
+    # From others tables
+    # delete_stmt = (
+    #     delete(user_table)
+    #     .where(user_table.c.id == address_table.c.user_id)
+    #     .where (address_table.c.email_adress == 'test1@gmail.com')
+    # )
+    # conn.execute(
+    #     delete_stmt
+    # )
 
 
+    print(conn.execute(select(user_table)).all())

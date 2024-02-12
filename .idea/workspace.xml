@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="68d8d5ed-807d-4513-bc64-ae54718791f2" name="Changes" comment="feat: and or and in operations">
+    <list default="true" id="68d8d5ed-807d-4513-bc64-ae54718791f2" name="Changes" comment="feat: methods select, order by, group by and others">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
@@ -96,7 +96,7 @@
       <option name="presentableId" value="Default" />
       <updated>1707482980620</updated>
       <workItem from="1707482989813" duration="7466000" />
-      <workItem from="1707728590188" duration="2710000" />
+      <workItem from="1707728590188" duration="4072000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <option name="closed" value="true" />
@@ -130,7 +130,15 @@
       <option name="project" value="LOCAL" />
       <updated>1707730020019</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="feat: methods select, order by, group by and others">
+      <option name="closed" value="true" />
+      <created>1707731354945</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1707731354945</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -141,9 +149,10 @@
     <MESSAGE value="feat: metadata lesson" />
     <MESSAGE value="feat: orm metadata feature" />
     <MESSAGE value="feat: and or and in operations" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: and or and in operations" />
+    <MESSAGE value="feat: methods select, order by, group by and others" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: methods select, order by, group by and others" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/sqlAlchemy$main.coverage" NAME="main Coverage Results" MODIFIED="1707731276742" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/sqlAlchemy$main.coverage" NAME="main Coverage Results" MODIFIED="1707733570974" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
