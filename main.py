@@ -1,73 +1,45 @@
-from sqlalchemy import create_engine, MetaData, Table, Column, Integer, String, ForeignKey, insert, select, or_, desc, \
-    update, bindparam, delete
-from sqlalchemy.dialects import postgresql, sqlite, mysql, oracle
+from sqlalchemy import create_engine,ForeignKey, select
+
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship, session, Session
 
 engine = create_engine("sqlite+pysqlite:///:memory:", echo=True)
 
-metadata = MetaData()
+class Base (DeclarativeBase):
+    pass
 
-user_table = Table(
-    'users',
-    metadata,
-    Column('id', Integer, primary_key=True, unique=True, autoincrement=True),
-    Column('first_name', String(30)),
-    Column('second_name', String)
-)
+class User (Base):
+    __tablename__ = 'users'
+    id: Mapped[int] = mapped_column(primary_key=True)
+    name: Mapped[str]
+    age: Mapped[int]
+    # uselist=False one-to-one relationship
+    address: Mapped["Address"] = relationship(back_populates="user",uselist=False)
 
-address_table = Table(
-    'addresses',
-    metadata,
-    Column('id', Integer, primary_key=True, unique=True, autoincrement=True),
-    Column('email_address', String(30)),
-    Column('user_id', ForeignKey('users.id'))
-)
+    def __repr__(self) -> str:
+        return f'User: {self.id=}:{self.name=}:{self.age=}'
 
-metadata.create_all(engine)
+class Address (Base):
+    __tablename__ = 'addresses'
+    email: Mapped[str] = mapped_column(primary_key=True)
+    # uselist=False one-to-one relationship
+    user: Mapped["User"] = relationship(back_populates="address", uselist=False)
+    user_fk: Mapped[int] = mapped_column(ForeignKey('users.id'))
 
-with engine.begin() as conn:
-    conn.execute(
-        insert(user_table),
-        [
-            {"first_name": "test1", "second_name": "test1 full"},
-            {"first_name": "test2", "second_name": "test2 full"},
-            {"first_name": "test3", "second_name": "test3 full"}
-        ]
-    )
-    conn.execute(
-        insert(address_table),
-        [
-            {"email_address": "test1@gmail.com", "user_id": 1},
-            {"email_address": "test2@gmail.com", "user_id": 2},
-            {"email_address": "test3@gmail.com", "user_id": 3}
-        ]
-    )
+    def __repr__(self) -> str:
+        return f'Address: {self.email=}:{self.user_fk=}'
 
+Base.metadata.create_all(engine)
 
-with engine.begin() as conn:
-    # Update Construction
-    # stmt = update(user_table).where(user_table.c.first_name == bindparam("oldname")).values(first_name=bindparam("newname"))
-    # conn.execute(
-    #    stmt,
-    #     [
-    #         {"oldname": "test1", "newname": "New Test 1"}
-    #     ]
-    # )
+session = Session(engine, expire_on_commit=True, autoflush=False)
 
-    # Delete construction
-    # From single table
-    conn.execute(
-        delete(user_table).where(user_table.c.id == 1)
-    )
+user = User(id=1, name="Test", age=30)
+address = Address(email="test@test.com")
+user.address = address
+session.add(user)
+session.commit()
 
-    # From others tables
-    # delete_stmt = (
-    #     delete(user_table)
-    #     .where(user_table.c.id == address_table.c.user_id)
-    #     .where (address_table.c.email_adress == 'test1@gmail.com')
-    # )
-    # conn.execute(
-    #     delete_stmt
-    # )
+users = session.scalars(select(User)).all()
+address = session.scalars(select(Address)).all()
 
-
-    print(conn.execute(select(user_table)).all())
+print(users)
+print(address)
