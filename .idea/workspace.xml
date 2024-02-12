@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="68d8d5ed-807d-4513-bc64-ae54718791f2" name="Changes" comment="feat: one to many relationship">
+    <list default="true" id="68d8d5ed-807d-4513-bc64-ae54718791f2" name="Changes" comment="feat: many to many relationship">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
@@ -96,7 +96,7 @@
       <option name="presentableId" value="Default" />
       <updated>1707482980620</updated>
       <workItem from="1707482989813" duration="7466000" />
-      <workItem from="1707728590188" duration="8071000" />
+      <workItem from="1707728590188" duration="8544000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <option name="closed" value="true" />
@@ -162,7 +162,15 @@
       <option name="project" value="LOCAL" />
       <updated>1707738086385</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="feat: many to many relationship">
+      <option name="closed" value="true" />
+      <created>1707739048187</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1707739048187</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -177,9 +185,10 @@
     <MESSAGE value="feat: update and delete methods" />
     <MESSAGE value="feat: one to one relationship" />
     <MESSAGE value="feat: one to many relationship" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: one to many relationship" />
+    <MESSAGE value="feat: many to many relationship" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: many to many relationship" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/sqlAlchemy$main.coverage" NAME="main Coverage Results" MODIFIED="1707738993627" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/sqlAlchemy$main.coverage" NAME="main Coverage Results" MODIFIED="1707739495108" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
